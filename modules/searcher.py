@@ -1,7 +1,7 @@
 '''
 descripition:核心检索模块
 '''
-
+from functools import lru_cache
 import sys,os,copy,json
 import faiss
 import numpy as np
@@ -84,7 +84,7 @@ class VectorSearch:
         with open(self.index_folder_path + "/forward_index.txt", encoding="utf8") as f:
             for line in f:
                 self.forward_index.append(json.loads(line.strip()))
-
+    @lru_cache
     def search(self, vecs, nums=5):
         search_res = self.invert_index.search(vecs, nums)
         recall_list = []
